@@ -1,0 +1,64 @@
+{
+  "configurations": [
+    {
+      "name": "w/out depth",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}",
+      "args": [
+        "--debug",
+        "--input",
+        "input.txt",
+        "--output",
+        "output.txt",
+        "--output-type",
+        "graphviz"
+      ]
+    },
+    {
+      "name": "w/ depth 1",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}",
+      "args": [
+        "--debug",
+        "--input",
+        "input.txt",
+        "--output",
+        "output-depth_1.txt",
+        "--output-type",
+        "graphviz",
+        "--depth",
+        "1"
+      ]
+    },
+    {
+      "name": "w/ depth",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}",
+      "args": [
+        "--debug",
+        "--input",
+        "input.txt",
+        "--output",
+        "output-depth_${input:depth}.txt",
+        "--output-type",
+        "graphviz",
+        "--depth",
+        "${input:depth}"
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "depth",
+      "type": "promptString",
+      "description": "depth",
+      "default": "0"
+    }
+  ]
+}

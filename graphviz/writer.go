@@ -1,9 +1,10 @@
 package graphviz
 
 import (
+	"io"
+
 	"github.com/awalterschulze/gographviz"
 	"github.com/pcasteran/terraform-graph-beautifier/tfgraph"
-	"io"
 )
 
 const clusterRefNodeName = "clusterRef"
@@ -128,6 +129,8 @@ func getNodeShapeAndStyle(elt tfgraph.ConfigElement) (string, string) {
 	shape := ""
 	style := ""
 	switch elt.GetTfType() {
+	case tfgraph.TfModule:
+		shape = "box"
 	case tfgraph.TfResource:
 		shape = "box"
 		style = "rounded"

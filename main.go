@@ -4,13 +4,14 @@ import (
 	"embed"
 	"flag"
 	"fmt"
+	"io/fs"
+	"os"
+	"path/filepath"
+
 	"github.com/pcasteran/terraform-graph-beautifier/cytoscape"
 	"github.com/pcasteran/terraform-graph-beautifier/graphviz"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"io/fs"
-	"os"
-	"path/filepath"
 )
 
 //go:embed templates/*
@@ -37,6 +38,7 @@ func main() {
 	outputFilePath := flag.String("output", "", "Path of the output file to write, if not set 'stdout' is used")
 	debug := flag.Bool("debug", false, "Print debugging information to stderr")
 	printVersion := flag.Bool("v", false, "Print command version and exit")
+	depth := flag.Uint("depth", 0, "Depth of the resulting graph, if not set or '0' depth is infinite")
 	// Input reading options.
 	var excludePatterns arrayFlags
 	flag.Var(&excludePatterns, "exclude", "Pattern (regexp) of the resource to filter out (can be repeated multiple times)")
@@ -78,6 +80,8 @@ func main() {
 		}()
 	}
 	graph := graphviz.LoadGraph(inputFile, *keepTfJunk, excludePatterns)
+
+	ApplyDepth(graph, depth)
 
 	// Write the result to the specified output.
 	outputFile := os.Stdout
